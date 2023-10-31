@@ -4,10 +4,10 @@ services:
     build:
       context: .
       args:
-        VERSION: 0.972
+        VERSION: 0.32.0
     environment:
-      - JAVA_XMS=2G
-      - JAVA_XMX=7G
+      - JAVA_XMS=4G
+      - JAVA_XMX=12G
     ports:
       - 25565:25565
     volumes:

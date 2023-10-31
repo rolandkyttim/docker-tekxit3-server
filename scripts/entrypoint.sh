@@ -12,12 +12,9 @@ if [ `ls -1 /data | wc -l` -eq 0 ]; then
     cp -R /tekxit-server/* /data/
 fi
 
-# find the name of the forge jar so the script works for newer versions
-jarname=$(find . -maxdepth 1 -name "forge*.jar")
-
 java \
     -server \
     -Xmx${JAVA_XMX} \
     -Xms${JAVA_XMS} \
-    -jar ${jarname} nogui \
+    -jar fabric-server-launch.jar nogui \
     ${JAVA_ADDITIONAL_ARGS}

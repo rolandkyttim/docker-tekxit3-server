@@ -1,4 +1,4 @@
-FROM openjdk:8-jre-alpine
+FROM eclipse-temurin:17-jre-alpine
 
 ARG VERSION="0.13.2"
 
@@ -14,7 +14,7 @@ ENV JAVA_XMX=4G
 ENV JAVA_ADDITIONAL_ARGS=""
 
 # the tekxit server files are published as .7z archive so we need something to unpack it.
-RUN apk add p7zip curl
+RUN apk add unzip curl
 
 # add rcon-cli to be able to interact with the console using rcon
 RUN curl -sSL https://github.com/itzg/rcon-cli/releases/download/1.4.8/rcon-cli_1.4.8_linux_amd64.tar.gz -o rcon-cli.tar.gz \
@@ -42,13 +42,13 @@ USER ${USER}
 WORKDIR /tekxit-server
 
 # download server files
-RUN curl -sSL "https://www.tekx.it/downloads/${VERSION}Tekxit3Server.7z" -o tekxit-server.7z
+RUN curl -sSL "https://www.tekxit.lol/downloads/tekxit4/${VERSION}Tekxit4Server.zip" -o tekxit-server.zip
 
 # unpack server files
 RUN \
-    p7zip -d tekxit-server.7z \
-    && mv ${VERSION}Tekxit3Server/* . \
-    && rmdir ${VERSION}Tekxit3Server
+    unzip tekxit-server.zip \
+    && mv ${VERSION}Tekxit4Server/* . \
+    && rmdir ${VERSION}Tekxit4Server
 
 WORKDIR /data
 
