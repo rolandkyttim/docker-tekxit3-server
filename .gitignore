@@ -1,0 +1,50 @@
+# Minecraft server files
+world/
+world_nether/
+world_the_end/
+banned-ips.json
+banned-players.json
+ops.json
+whitelist.json
+server.properties
+eula.txt
+
+# Logs and crash reports
+logs/
+crash-reports/
+
+# Compiled Java classes and Minecraft mods
+*.class
+mods/
+
+# Temporary files and directories
+*.tmp
+*.swp
+*.swo
+*.bak
+*.log
+*.out
+*.pid
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lock
+
+# IDE and editor configuration files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.tmproj
+*.esproj
+*.iml
+
+# Build and packaging files
+target/
+dist/
+build/
+lib/
+out/
+*.jar
+*.war
+*.ear

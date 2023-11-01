@@ -1,6 +1,6 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17
 
-ARG VERSION="0.13.2"
+ARG VERSION="0.32.0"
 
 # The user that runs the minecraft server and own all the data
 # you may want to change this to match your local user
@@ -14,13 +14,21 @@ ENV JAVA_XMX=4G
 ENV JAVA_ADDITIONAL_ARGS=""
 
 # the tekxit server files are published as .7z archive so we need something to unpack it.
-RUN apk add unzip curl
+RUN apt update
+RUN apt install -y unzip curl
 
-# add rcon-cli to be able to interact with the console using rcon
-RUN curl -sSL https://github.com/itzg/rcon-cli/releases/download/1.4.8/rcon-cli_1.4.8_linux_amd64.tar.gz -o rcon-cli.tar.gz \
-    && tar -xzf rcon-cli.tar.gz rcon-cli \
-    && mv rcon-cli /usr/local/bin \
-    && rm rcon-cli.tar.gz
+RUN ARCH=$(uname -m) && \
+    case "$ARCH" in \
+        aarch64) ARCH="arm64" ;; \
+        x86_64) ARCH="amd64" ;; \
+    esac && \
+    LATEST_VERSION=$(curl -sSL https://api.github.com/repos/itzg/rcon-cli/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/') && \
+    echo "LATEST_VERSION: ${LATEST_VERSION}" && \
+    echo "ARCH: ${ARCH}" && \
+    curl -sSL "https://github.com/itzg/rcon-cli/releases/download/${LATEST_VERSION}/rcon-cli_${LATEST_VERSION}_linux_${ARCH}.tar.gz" -o rcon-cli.tar.gz && \
+    tar -xzf rcon-cli.tar.gz rcon-cli && \
+    mv rcon-cli /usr/local/bin && \
+    rm rcon-cli.tar.gz
 
 # add entrypoint
 ADD ./scripts/entrypoint.sh /entrypoint
@@ -37,7 +45,7 @@ RUN adduser \
 # survives a container restart
 RUN mkdir /tekxit-server && chown -R "${USER}" /tekxit-server
 
-# swicht to the minecraft user since we don't need root at this point
+# switch to the minecraft user since we don't need root at this point
 USER ${USER}
 WORKDIR /tekxit-server
 
