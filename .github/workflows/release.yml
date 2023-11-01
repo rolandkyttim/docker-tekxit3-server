@@ -35,7 +35,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ghcr.io/Ithilias/minecraft-tekxit4-docker
+          images: ghcr.io/Ithilias/docker-tekxit4-server
           tags: |
             type=raw,value=${{ env.VERSION }}
             type=raw,value=latest
@@ -53,7 +53,7 @@ jobs:
           context: .
           file: ./Dockerfile
           platforms: linux/amd64,linux/arm64/v8
-          push: ${{ github.event.pull_request.head.repo.full_name == 'Ithilias/minecraft-tekxit4-docker' || github.event_name != 'pull_request' }}
+          push: ${{ github.event.pull_request.head.repo.full_name == 'Ithilias/docker-tekxit4-server' || github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |

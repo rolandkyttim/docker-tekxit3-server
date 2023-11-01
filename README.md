@@ -1,4 +1,4 @@
-# minecraft-tekxit4-docker
+# docker-tekxit4-server
 
 Dockerfiles to run a Minecraft [tekxit4](https://www.technicpack.net/modpack/tekxit-4-official.1921233) server.
 
@@ -7,8 +7,8 @@ Dockerfiles to run a Minecraft [tekxit4](https://www.technicpack.net/modpack/tek
 ### Setting up the server
 
 ```sh
-git clone https://github.com/Ithilias/minecraft-tekxit4-docker.git
-cd minecraft-tekxit4-docker
+git clone https://github.com/Ithilias/docker-tekxit4-server.git
+cd docker-tekxit4-server
 
 # server data will be written to ./data by default. You might want to change the volume before you continue.
 # memory limits can be set by changing the environment variables in the compose file.
@@ -28,7 +28,7 @@ version: '3.9'
 services:
   tekxit:
     container_name: tekxit
-    image: ghcr.io/ithilias/minecraft-tekxit4-docker:latest
+    image: ghcr.io/ithilias/docker-tekxit4-server:latest
     environment:
       JAVA_XMS: "4G"
       JAVA_XMX: "12G"
