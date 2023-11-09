@@ -62,4 +62,4 @@ WORKDIR /data
 
 EXPOSE 25565
 EXPOSE 25575
-ENTRYPOINT /entrypoint
+ENTRYPOINT ["/bin/bash", "/entrypoint"]
