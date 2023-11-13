@@ -50,12 +50,22 @@ if [ ! -f /data/eula.txt ]; then
     echo "eula=$EULA" > /data/eula.txt
 fi
 
+# Check if server.properties exists
+if [ ! -f /data/server.properties ]; then
+    echo "server.properties not found, copying default configuration..."
+    cp /tekxit-server/server.properties.dist server.properties
+fi
+
+# set owner of data dir to minecraft user
+chown -R minecraft:minecraft /data
+
 # update server.properties with rcon configuration
 sed -i "s/^enable-rcon=.*$/enable-rcon=true/" /data/server.properties
 sed -i "s/^rcon.port=.*$/rcon.port=${RCON_PORT:-$DEFAULT_RCON_PORT}/" /data/server.properties
 sed -i "s/^rcon.password=.*$/rcon.password=${RCON_PASSWORD:-$DEFAULT_RCON_PASSWORD}/" /data/server.properties
 
-java \
+exec gosu minecraft \
+  java \
     -server \
     -Xmx${JAVA_XMX} \
     -Xms${JAVA_XMS} \

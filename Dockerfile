@@ -1,22 +1,20 @@
-FROM eclipse-temurin:17
+FROM eclipse-temurin:17-jre-focal
 
 ARG VERSION="0.32.0"
 
-# The user that runs the minecraft server and own all the data
-# you may want to change this to match your local user
 ENV USER=minecraft
 ENV UID=1000
-
-# Memory limits for the java VM that can be overridden via env.
 ENV JAVA_XMS=1G
 ENV JAVA_XMX=4G
-# Additional args that are appended to the end of the java command.
 ENV JAVA_ADDITIONAL_ARGS=""
 
-# the tekxit server files are published as .7z archive so we need something to unpack it.
-RUN apt update
-RUN apt install -y unzip curl
+# Install necessary packages and clean up
+RUN apt-get update && \
+    apt-get install -y unzip curl gosu && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
+# Download, setup rcon-cli, and clean up
 RUN ARCH=$(uname -m) && \
     case "$ARCH" in \
         aarch64) ARCH="arm64" ;; \
@@ -30,33 +28,22 @@ RUN ARCH=$(uname -m) && \
     mv rcon-cli /usr/local/bin && \
     rm rcon-cli.tar.gz
 
-# add entrypoint
-ADD ./scripts/entrypoint.sh /entrypoint
+# Add entrypoint script
+COPY ./scripts/entrypoint.sh /entrypoint
 RUN chmod +x /entrypoint
 
-# create a new user to run our minecraft-server
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --uid "${UID}" \
-    "${USER}"
+# Create user, download and unpack Tekxit server files, and set up directories
+RUN adduser --disabled-password --gecos "" --uid "${UID}" "${USER}" && \
+    mkdir /tekxit-server && \
+    chown -R "${USER}" /tekxit-server && \
+    curl -sSL "https://www.tekxit.lol/downloads/tekxit4/${VERSION}Tekxit4Server.zip" -o tekxit-server.zip && \
+    unzip tekxit-server.zip && \
+    mv ${VERSION}Tekxit4Server/* /tekxit-server && \
+    rmdir ${VERSION}Tekxit4Server && \
+    rm tekxit-server.zip
 
-# declare a directory for the data directory
-# survives a container restart
-RUN mkdir /tekxit-server && chown -R "${USER}" /tekxit-server
-
-# switch to the minecraft user since we don't need root at this point
-USER ${USER}
-WORKDIR /tekxit-server
-
-# download server files
-RUN curl -sSL "https://www.tekxit.lol/downloads/tekxit4/${VERSION}Tekxit4Server.zip" -o tekxit-server.zip
-
-# unpack server files
-RUN \
-    unzip tekxit-server.zip \
-    && mv ${VERSION}Tekxit4Server/* . \
-    && rmdir ${VERSION}Tekxit4Server
+# Add server.properties
+COPY ./scripts/server.properties.dist /tekxit-server/server.properties
 
 WORKDIR /data
 
