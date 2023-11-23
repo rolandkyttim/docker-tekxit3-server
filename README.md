@@ -52,3 +52,21 @@ To access the console, you can use the `mc-command.sh` script:
 ```sh
 ./mc-command.sh -h
 ```
+
+### Updating the Server
+
+To update your Tekxit4 server, follow these steps:
+
+1. **Backup Important Files:** Before updating, it's crucial to backup your world, configurations, and any other important data. This can usually be found in the `./data` directory.
+
+2. **Prepare for Update:** Ensure the `./data` directory is empty. The updated server files will be copied here.
+
+3. **Pull the Latest Image:** Run `docker compose pull` to download the latest version of the Docker image.
+
+4. **Restart the Server:** Use `docker compose up -d` to restart your server. This will ensure the server runs with the latest image and updates necessary files.
+
+5. **Restore Backups:** If necessary, restore any backed-up files to their respective locations in the `./data` directory.
+
+6. **Verify Server Operation:** Once the server is running, connect to it and verify that everything is functioning correctly. Pay special attention to world integrity and mod functionality.
+
+**Note:** Be sure to read the update notes for the specific version of Tekxit4 you're updating to. Some updates might require additional steps or considerations, especially if there are major changes in mods.
