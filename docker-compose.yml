@@ -5,7 +5,7 @@ services:
     build:
       context: .
       args:
-        VERSION: 0.44.0
+        VERSION: 4.0.0
     environment:
       JAVA_XMS: 4G
       JAVA_XMX: 12G
