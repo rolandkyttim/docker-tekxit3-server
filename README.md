@@ -23,8 +23,6 @@ Alternatively, you can use the Docker image available as a package on GitHub.
 Here's an example `docker-compose.yml` file for using the Docker image:
 
 ```yaml
-version: '3.9'
-
 services:
   tekxit:
     container_name: tekxit

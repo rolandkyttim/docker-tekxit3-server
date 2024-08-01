@@ -3,8 +3,6 @@ services:
     container_name: tekxit
     build:
       context: .
-      args:
-        VERSION: 8.8.0
     environment:
       JAVA_XMS: 4G
       JAVA_XMX: 12G
