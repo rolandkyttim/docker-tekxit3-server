@@ -33,7 +33,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
-            type=raw,value=${{ env.VERSION }}
+            type=raw,value=${{ env.CURRENT_VERSION }}
             type=raw,value=latest
 
       - name: Set up QEMU

@@ -42,8 +42,8 @@ RUN adduser --disabled-password --gecos "" --uid "${UID}" "${USER}" && \
     rmdir ${VERSION}Tekxit4Server && \
     rm tekxit-server.zip
 
-# Add server.properties
-COPY ./scripts/server.properties.dist /tekxit-server/server.properties
+# Add update indicator
+RUN touch /tekxit-server/update_indicator
 
 WORKDIR /data
 
