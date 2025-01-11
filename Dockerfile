@@ -1,6 +1,6 @@
 FROM eclipse-temurin:17-jre-focal
 
-ARG VERSION="12.0.0"
+ARG VERSION="1.0.980"
 
 ENV USER=minecraft
 ENV UID=1000
@@ -36,7 +36,7 @@ RUN chmod +x /entrypoint
 RUN adduser --disabled-password --gecos "" --uid "${UID}" "${USER}" && \
     mkdir /tekxit-server && \
     chown -R "${USER}" /tekxit-server && \
-    curl -sSL "https://www.tekxit.lol/downloads/tekxit4/${VERSION}Tekxit4Server.zip" -o tekxit-server.zip && \
+    curl -sSL "https://www.tekxit.lol/downloads/tekxit3.14/${VERSION}TekxitPiServer.zip" -o tekxit-server.zip && \
     unzip tekxit-server.zip && \
     mv ${VERSION}Tekxit4Server/* /tekxit-server && \
     rmdir ${VERSION}Tekxit4Server && \
