@@ -1,6 +1,6 @@
-# docker-tekxit4-server
+# docker-tekxit3-server
 
-Dockerfiles to run a Minecraft [tekxit4](https://www.technicpack.net/modpack/tekxit-4-official.1921233) server.
+Dockerfiles to run a Minecraft [tekxit3](https://www.technicpack.net/modpack/tekxit-314-official-1122.1718228) server.
 
 ## Usage
 
